@@ -1,0 +1,46 @@
+var DisplayBox = React.createClass({
+  getInitialState:function(){
+    return{
+      value:"BIG OL' HEADER\n=====\n\nLil' Header\n------\n\n### Even Lil'er Heading\n\nTwo spaces at the end of a line for a  \nline break.\n\nGettin' Textual\n=====\n\n*Itaaaalicized*, **B O L D**\n`monospace`, ~~strikethru~~ \n\n Dotted List of Mammals:\n * Squirrels\n * Rabbits\n * Gophers\n\nNumbered List\n 1. Three\n 2. Four\n 3. One\n 4. Two"
+    }
+  },
+  
+  updateInput: function(newInput){
+    this.setState({
+      value: newInput
+    })
+  },
+  
+  rawText: function(val){
+    var rawText = marked(val, {sanitize: true}); //Runs raw input text through marked library.
+    return { __html: rawText};
+  },
+  render: function(){ //Outputs converted text followed by the InputField component that houses the textarea in columns.
+    return (
+      <div className = 'row'>
+        <div id='output' className = 'col-md-6'>
+          <div dangerouslySetInnerHTML={this.rawText(this.state.value)} /> 
+          </div>
+        <div className = 'col-md-6'>
+          <InputField value={this.state.value} updateInput={this.updateInput} />
+        </div>
+      </div>
+    ); // ^Initial values for value (base text for input box) and the state updating function passed to InputField
+  }
+  
+});
+
+var InputField = React.createClass({ //Component that renders the textarea and monitors its current value. When the value changes, calls the updateMarkdown function that was passed down from the parent DisplayBox component
+  updateMarkdown:function(e){
+    var newValue = e.target.value; //target is the textarea, as that's where it was called from.
+    this.props.updateInput(newValue); //Function call to update state of DisplayBox and thus the value to be run through the marked library.
+  },
+  render:function(){
+        return (<textarea rows="21" type="text" value={this.props.value} onChange={this.updateMarkdown} />)
+    }
+  
+});
+
+ReactDOM.render(
+  <DisplayBox />, document.getElementById("container")
+); //Renders DisplayBox to the div with the id of container in the html.

@@ -1,0 +1,23 @@
+body {
+  background: black;
+  color: #18e029;
+  font-family: "Source Code Pro", monospace;
+}
+
+.container {
+  margin-top: 35px;
+}
+
+#title {
+  font-size: 45px;
+  text-align: center;
+}
+
+textarea {
+  height: 100%;
+  width: 500px;
+  background: black;
+  color: #11ff25;
+  font-family: "Source Code Pro", monospace;
+  font-size: 13.9px;
+}
